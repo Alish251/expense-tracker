@@ -39,20 +39,20 @@ public class IncomeDaoImpl implements IncomeDao {
 
     @Override
     public Income findById(Long id) {
+        Income income = null;
         try (var connection = connectionPool.getConnection();
-             var preparedStatement = connection.prepareStatement("select * from incomes where id = ?");) {
+             var preparedStatement = connection.prepareStatement("select * from incomes where id = ?")) {
             preparedStatement.setLong(1, id);
             var resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                var income = mapResultSetToIncome(resultSet);
+                income = mapResultSetToIncome(resultSet);
                 connectionPool.returnConnection(connection);
-                return income;
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return null;
+        return income;
     }
 
     @Override
@@ -79,7 +79,7 @@ public class IncomeDaoImpl implements IncomeDao {
     @Override
     public Income updateById(Long id, Income income) {
         try (var connection = connectionPool.getConnection();
-             var preparedStatement = connection.prepareStatement("update incomes set amount = ?, income_source_id = ?, date = ? where id = ?");
+             var preparedStatement = connection.prepareStatement("update incomes set amount = ?, income_source_id = ?, date = ? where id = ?")
         ) {
             preparedStatement.setBigDecimal(1, income.getAmount());
             preparedStatement.setLong(2, income.getIncomeSourceId());
@@ -117,26 +117,5 @@ public class IncomeDaoImpl implements IncomeDao {
         income.setIncomeSourceId(resultSet.getLong(3));
         income.setDate(resultSet.getDate(4).toLocalDate());
         return income;
-    }
-
-    public static void main(String[] args) {
-        IncomeDaoImpl incomeDao = new IncomeDaoImpl();
-
-        List<Income> incomeList = incomeDao.findAll();
-
-        for (Income income : incomeList) {
-            System.out.println(income);
-        }
-
-        System.out.println(incomeDao.findById(1L));
-
-        Income income = new Income(2L, new BigDecimal("27000.55"), 1L, LocalDate.now());
-
-        //incomeDao.save(income);
-        //incomeDao.updateById(3L, income);
-        //incomeDao.deleteById(3L);
-
-
-
     }
 }

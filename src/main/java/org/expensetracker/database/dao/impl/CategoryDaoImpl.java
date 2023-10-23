@@ -35,21 +35,21 @@ public class CategoryDaoImpl implements CategoryDao {
 
     @Override
     public Category findById(Long id) {
+        Category category = null;
         try (var connection = connectionPool.getConnection();
-             var preparedStatement = connection.prepareStatement("select * from categories where id = ?");) {
+             var preparedStatement = connection.prepareStatement("select * from categories where id = ?")) {
             preparedStatement.setLong(1, id);
             var resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                var category = mapResultSetToCategory(resultSet);
+                category = mapResultSetToCategory(resultSet);
                 connectionPool.returnConnection(connection);
-                return category;
             }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return null;
+        return category;
     }
 
     @Override
@@ -75,7 +75,7 @@ public class CategoryDaoImpl implements CategoryDao {
     @Override
     public Category updateById(Long id, Category category) {
         try (var connection = connectionPool.getConnection();
-             var preparedStatement = connection.prepareStatement("update categories set name = ?, description = ? where id = ?");
+             var preparedStatement = connection.prepareStatement("update categories set name = ?, description = ? where id = ?")
         ) {
             preparedStatement.setString(1, category.getName());
             preparedStatement.setString(2, category.getDescription());

@@ -34,22 +34,22 @@ public class AccountDaoImpl implements AccountDao {
 
     @Override
     public Account findById(Long id) {
+        Account account = null;
+
         try (var connection = connectionPool.getConnection();
-             var preparedStatement = connection.prepareStatement("select * from accounts where id = ?");) {
+             var preparedStatement = connection.prepareStatement("select * from accounts where id = ?")) {
             preparedStatement.setLong(1, id);
             var resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                var account = mapResultSetToAccount(resultSet);
+                account = mapResultSetToAccount(resultSet);
                 connectionPool.returnConnection(connection);
-                return account;
             }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-        return null;
+        return account;
     }
 
     @Override
@@ -77,8 +77,7 @@ public class AccountDaoImpl implements AccountDao {
     @Override
     public Account updateById(Long id, Account account) {
         try (var connection = connectionPool.getConnection();
-             var preparedStatement = connection.prepareStatement("update accounts set balance = ?, expense_id = ?, income_id = ?, user_id = ? where id = ?");
-        ) {
+             var preparedStatement = connection.prepareStatement("update accounts set balance = ?, expense_id = ?, income_id = ?, user_id = ? where id = ?")) {
             preparedStatement.setBigDecimal(1, account.getBalance());
             preparedStatement.setLong(2, account.getExpenseId());
             preparedStatement.setLong(3, account.getIncomeId());
@@ -119,29 +118,6 @@ public class AccountDaoImpl implements AccountDao {
         account.setIncomeId(resultSet.getLong("income_id"));
         account.setUserId(resultSet.getLong("user_id"));
         return account;
-    }
-
-    public static void main(String[] args) {
-        long id = 1;
-        BigDecimal bigDecimal = BigDecimal.valueOf(2800);
-        long incomeId = 1;
-        long expenseId = 1;
-        long userId = 1;
-
-        Account account1 = new Account(id, bigDecimal, incomeId, expenseId, userId);
-
-        AccountDaoImpl accountDao = new AccountDaoImpl();
-
-        List<Account> accountList = new ArrayList<>(accountDao.findAll());
-
-        for (Account a : accountList) {
-            System.out.println(a);
-        }
-
-        //System.out.println(accountDao.findById(3L));
-
-        accountDao.updateById(5l,account1);
-
     }
 }
 

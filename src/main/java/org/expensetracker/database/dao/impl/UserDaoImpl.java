@@ -1,12 +1,9 @@
 package org.expensetracker.database.dao.impl;
 
 import org.expensetracker.database.dao.UserDao;
-import org.expensetracker.database.entity.Expense;
 import org.expensetracker.database.entity.User;
 import org.expensetracker.database.util.ConnectionPool;
 
-import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -39,20 +36,20 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User findById(Long id) {
+        User user = null;
         try (var connection = connectionPool.getConnection();
-             var preparedStatement = connection.prepareStatement("select * from users where id = ?");) {
+             var preparedStatement = connection.prepareStatement("select * from users where id = ?")) {
             preparedStatement.setLong(1, id);
             var resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                var user = mapResultSetToUser(resultSet);
+                user = mapResultSetToUser(resultSet);
                 connectionPool.returnConnection(connection);
-                return user;
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return null;
+        return user;
     }
 
     @Override
@@ -78,7 +75,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User updateById(Long id, User user) {
         try (var connection = connectionPool.getConnection();
-             var preparedStatement = connection.prepareStatement("update users set firstname = ?, lastname = ?, email = ? where id = ?");
+             var preparedStatement = connection.prepareStatement("update users set firstname = ?, lastname = ?, email = ? where id = ?")
         ) {
             preparedStatement.setString(1, user.getFirstname());
             preparedStatement.setString(2, user.getLastname());
@@ -116,32 +113,5 @@ public class UserDaoImpl implements UserDao {
         user.setLastname(resultSet.getString(3));
         user.setEmail(resultSet.getString(4));
         return user;
-    }
-
-    public static void main(String[] args) {
-        UserDaoImpl userDao = new UserDaoImpl();
-
-        List<User> userList = userDao.findAll();
-
-        for (User user : userList) {
-            System.out.println(user);
-        }
-
-        System.out.println(userDao.findById(1l));
-
-        User user = new User();
-
-        user.setId(2l);
-        user.setFirstname("Adam");
-        user.setLastname("Alex");
-        user.setEmail("adamalex@gmail.com");
-
-        //System.out.println(userDao.save(user));
-
-        user.setEmail("adamalex@mail.com");
-
-        System.out.println(userDao.updateById(2l, user));
-
-        userDao.deleteById(2l);
     }
 }

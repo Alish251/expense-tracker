@@ -1,7 +1,6 @@
 package org.expensetracker.database.dao.impl;
 
 import org.expensetracker.database.dao.IncomeSourceDao;
-import org.expensetracker.database.entity.Category;
 import org.expensetracker.database.entity.IncomeSource;
 import org.expensetracker.database.util.ConnectionPool;
 
@@ -36,21 +35,22 @@ public class IncomeSourceDaoImpl implements IncomeSourceDao {
 
     @Override
     public IncomeSource findById(Long id) {
+        IncomeSource incomeSource = null;
+
         try (var connection = connectionPool.getConnection();
-             var preparedStatement = connection.prepareStatement("select * from income_sources where id = ?");) {
+             var preparedStatement = connection.prepareStatement("select * from income_sources where id = ?")) {
             preparedStatement.setLong(1, id);
             var resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                var incomeSource = mapResultSetToIncomeSource(resultSet);
+                incomeSource = mapResultSetToIncomeSource(resultSet);
                 connectionPool.returnConnection(connection);
-                return incomeSource;
             }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return null;
+        return incomeSource;
     }
 
     @Override
@@ -76,7 +76,7 @@ public class IncomeSourceDaoImpl implements IncomeSourceDao {
     @Override
     public IncomeSource updateById(Long id, IncomeSource incomeSource) {
         try (var connection = connectionPool.getConnection();
-             var preparedStatement = connection.prepareStatement("update income_sources set name = ?, description = ? where id = ?");
+             var preparedStatement = connection.prepareStatement("update income_sources set name = ?, description = ? where id = ?")
         ) {
             preparedStatement.setString(1, incomeSource.getName());
             preparedStatement.setString(2, incomeSource.getDescription());
@@ -113,23 +113,5 @@ public class IncomeSourceDaoImpl implements IncomeSourceDao {
         incomeSource.setName(resultSet.getString(2));
         incomeSource.setDescription(resultSet.getString(3));
         return incomeSource;
-    }
-
-    public static void main(String[] args) {
-        IncomeSourceDaoImpl incomeSourceDao = new IncomeSourceDaoImpl();
-        List<IncomeSource> incomeSourceList = incomeSourceDao.findAll();
-
-        for (IncomeSource incomeSource : incomeSourceList) {
-            System.out.println(incomeSource);
-        }
-
-        System.out.println(incomeSourceDao.findById(1L));
-
-        IncomeSource incomeSource = new IncomeSource(2L, "Dividend", "From dividends");
-
-        //incomeSourceDao.save(incomeSource);
-
-        //incomeSourceDao.updateById(2L, incomeSource);
-        incomeSourceDao.deleteById(2L);
     }
 }
