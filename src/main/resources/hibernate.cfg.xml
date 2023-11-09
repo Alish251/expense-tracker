@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.url">jdbc:postgresql://localhost:5432/postgres</property>
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <property name="connection.username">admin</property>
+        <property name="connection.password">root</property>
+        <property name="show_sql">true</property>
+        <property name="format_sql">true</property>
+        <!--        <property name="hbm2ddl.auto">create</property>-->
+
+        <mapping class="org.expensetracker.database.entity.Account"></mapping>
+        <mapping class="org.expensetracker.database.entity.User"></mapping>
+        <mapping class="org.expensetracker.database.entity.Category"></mapping>
+        <mapping class="org.expensetracker.database.entity.Expense"></mapping>
+        <mapping class="org.expensetracker.database.entity.Income"></mapping>
+        <mapping class="org.expensetracker.database.entity.IncomeSource"></mapping>
+    </session-factory>
+</hibernate-configuration>

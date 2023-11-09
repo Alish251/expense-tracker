@@ -1,24 +1,30 @@
 package org.expensetracker.database.entity;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.Set;
 
+@Entity
+@Table(name = "accounts")
 public class Account {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "balance")
     private BigDecimal balance;
-    private Long incomeId;
-    private Long expenseId;
-    private Long userId;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
+    private Set<Income> incomes;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
+    private Set<Expense> expenses;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private User user;
 
     public Account() {
     }
 
-    public Account(Long id, BigDecimal balance, Long incomeId, Long expenseId, Long userId) {
-        this.id = id;
+    public Account(BigDecimal balance) {
         this.balance = balance;
-        this.incomeId = incomeId;
-        this.expenseId = expenseId;
-        this.userId = userId;
     }
 
     public Long getId() {
@@ -37,28 +43,29 @@ public class Account {
         this.balance = balance;
     }
 
-    public Long getIncomeId() {
-        return incomeId;
+
+    public User getUser() {
+        return user;
     }
 
-    public void setIncomeId(Long incomeId) {
-        this.incomeId = incomeId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Long getExpenseId() {
-        return expenseId;
+    public Set<Income> getIncomes() {
+        return incomes;
     }
 
-    public void setExpenseId(Long expenseId) {
-        this.expenseId = expenseId;
+    public void setIncomes(Set<Income> incomes) {
+        this.incomes = incomes;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Set<Expense> getExpenses() {
+        return expenses;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setExpenses(Set<Expense> expenses) {
+        this.expenses = expenses;
     }
 
     @Override
@@ -79,9 +86,9 @@ public class Account {
         return "Account{" +
                 "id=" + id +
                 ", balance=" + balance +
-                ", incomeId=" + incomeId +
-                ", expenseId=" + expenseId +
-                ", userId=" + userId +
+                ", incomes=" + incomes +
+                ", expenses=" + expenses +
+                ", userId=" + user +
                 '}';
     }
 }

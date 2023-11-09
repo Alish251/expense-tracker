@@ -1,49 +1,22 @@
-package org.expensetracker.database.entity;
+package org.expensetracker.service.model;
 
-import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
 
-@Entity
-@Table(name = "users")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(name = "firstname")
+public class UserDto {
     private String firstname;
-    @Column(name = "lastname")
     private String lastname;
-    @Column(name = "email")
     private String email;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-    private Set<Account> accounts;
+    private Set<AccountDto> accounts;
 
-    public User() {
+    public UserDto() {
     }
 
-    public User(Long id, String firstname, String lastname, String email, Set<Account> accounts) {
-        this.id = id;
+    public UserDto(String firstname, String lastname, String email, Set<AccountDto> accounts) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.accounts = accounts;
-    }
-
-    public Set<Account> getAccounts() {
-        return accounts;
-    }
-
-    public void setAccounts(Set<Account> accounts) {
-        this.accounts = accounts;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getFirstname() {
@@ -70,24 +43,31 @@ public class User {
         this.email = email;
     }
 
+    public Set<AccountDto> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(Set<AccountDto> accounts) {
+        this.accounts = accounts;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(id, user.id);
+        UserDto userDto = (UserDto) o;
+        return Objects.equals(firstname, userDto.firstname) && Objects.equals(lastname, userDto.lastname) && Objects.equals(email, userDto.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(firstname, lastname, email);
     }
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstname='" + firstname + '\'' +
+        return "UserDto{" +
+                "firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", email='" + email + '\'' +
                 '}';

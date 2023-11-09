@@ -1,19 +1,30 @@
 package org.expensetracker.database.entity;
 
+import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
+@Entity
+@Table(name = "income_sources")
 public class IncomeSource {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "description")
     private String description;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "incomeSource")
+    private Set<Income> incomes;
 
     public IncomeSource() {
     }
 
-    public IncomeSource(Long id, String name, String description) {
+    public IncomeSource(Long id, String name, String description, Set<Income> incomes) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.incomes = incomes;
     }
 
     public Long getId() {
@@ -38,6 +49,14 @@ public class IncomeSource {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Set<Income> getIncomes() {
+        return incomes;
+    }
+
+    public void setIncomes(Set<Income> incomes) {
+        this.incomes = incomes;
     }
 
     @Override

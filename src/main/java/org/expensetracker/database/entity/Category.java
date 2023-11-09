@@ -1,19 +1,32 @@
 package org.expensetracker.database.entity;
 
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
 
-public class Category {
+@Entity
+@Table(name = "categories")
+public class Category implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "description")
     private String description;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
+    private Set<Expense> expenses;
 
     public Category() {
     }
 
-    public Category(Long id, String name, String description) {
+    public Category(Long id, String name, String description, Set<Expense> expenses) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.expenses = expenses;
     }
 
     public Long getId() {
@@ -38,6 +51,14 @@ public class Category {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Set<Expense> getExpenses() {
+        return expenses;
+    }
+
+    public void setExpenses(Set<Expense> expenses) {
+        this.expenses = expenses;
     }
 
     @Override

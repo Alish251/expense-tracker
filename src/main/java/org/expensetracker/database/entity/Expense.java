@@ -1,24 +1,36 @@
 package org.expensetracker.database.entity;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Objects;
 
+@Entity
+@Table(name = "expenses")
 public class Expense {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "amount")
     private BigDecimal amount;
-    private Long categoryId;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    private Category category;
+    @Column(name = "date")
     private LocalDate date;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
+    private Account account;
 
     public Expense() {
     }
 
-    public Expense(Long id, BigDecimal amount, Long categoryId, LocalDate date) {
-        this.id = id;
+    public Expense(BigDecimal amount, LocalDate date, Category category, Account account) {
         this.amount = amount;
-        this.categoryId = categoryId;
+        this.category = category;
         this.date = date;
+        this.account = account;
     }
 
     public Long getId() {
@@ -37,12 +49,20 @@ public class Expense {
         this.amount = amount;
     }
 
-    public Long getCategoryId() {
-        return categoryId;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public LocalDate getDate() {
@@ -71,8 +91,9 @@ public class Expense {
         return "Expense{" +
                 "id=" + id +
                 ", amount=" + amount +
-                ", categoryId=" + categoryId +
                 ", date=" + date +
+                ", categoryId=" + category.getId() +
+                ", accountId=" + account.getId() +
                 '}';
     }
 }
