@@ -5,10 +5,12 @@ import org.expensetracker.database.repository.ExpenseRepository;
 import org.expensetracker.service.ExpenseService;
 import org.expensetracker.service.mapper.ExpenseMapper;
 import org.expensetracker.service.model.ExpenseDto;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ExpenseServiceImpl implements ExpenseService {
     private final ExpenseRepository repository;
     private final ExpenseMapper mapper;

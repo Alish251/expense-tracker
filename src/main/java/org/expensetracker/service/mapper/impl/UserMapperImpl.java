@@ -24,6 +24,7 @@ public class UserMapperImpl implements UserMapper {
             return null;
         }
         final UserDto userDto = new UserDto();
+        userDto.setId(userDto.getId());
         userDto.setEmail(entity.getEmail());
         userDto.setFirstname(entity.getFirstname());
         userDto.setLastname(entity.getLastname());
@@ -72,7 +73,7 @@ public class UserMapperImpl implements UserMapper {
         }
         return entities.stream()
                 .map(this::toDto)
-                .collect(Collectors.toList()); //todo Проверить работоспособность - работает, но не работает если id не по порядку
+                .collect(Collectors.toList());
     }
 
     @Override

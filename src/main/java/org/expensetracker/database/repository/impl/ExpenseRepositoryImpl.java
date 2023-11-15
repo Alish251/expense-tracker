@@ -1,19 +1,17 @@
 package org.expensetracker.database.repository.impl;
 
-import org.expensetracker.database.entity.Account;
-import org.expensetracker.database.entity.Category;
 import org.expensetracker.database.entity.Expense;
 import org.expensetracker.database.repository.ExpenseRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class ExpenseRepositoryImpl implements ExpenseRepository {
     private final SessionFactory sessionFactory;
 
@@ -92,30 +90,5 @@ public class ExpenseRepositoryImpl implements ExpenseRepository {
             }
         }
         return Optional.of(id);
-    }
-
-    public static void main(String[] args) {
-        org.hibernate.cfg.Configuration configuration = new org.hibernate.cfg.Configuration();
-        configuration.configure();
-
-
-        Account account = new AccountRepositoryImpl(configuration.buildSessionFactory()).findById(2L).get();
-        Category category = new CategoryRepositoryImpl(configuration.buildSessionFactory()).findById(2L).get();
-
-        ExpenseRepository repository = new ExpenseRepositoryImpl(configuration.buildSessionFactory());
-
-        Expense expense = new Expense(BigDecimal.valueOf(1700), LocalDate.now(), category, account);
-
-        //add - works
-        //System.out.println(repository.add(expense));
-
-        //find all - works
-        //System.out.println(repository.findAll());
-        //find by id - work
-        System.out.println(repository.findById(1L).get().getCategory());
-        //update - works
-        //System.out.println(repository.updateById(2L, expense));
-        //delete - works
-        //System.out.println(repository.deleteById(2l));
     }
 }

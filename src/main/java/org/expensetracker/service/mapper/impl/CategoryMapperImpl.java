@@ -3,17 +3,20 @@ package org.expensetracker.service.mapper.impl;
 import org.expensetracker.database.entity.Category;
 import org.expensetracker.service.mapper.CategoryMapper;
 import org.expensetracker.service.model.CategoryDto;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class CategoryMapperImpl implements CategoryMapper {
-    @Override //todo - check
+    @Override
     public CategoryDto toDto(Category entity) {
         if (entity == null) {
             return null;
         }
         final CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setId(entity.getId());
         categoryDto.setName(entity.getName());
         categoryDto.setDescription(entity.getDescription());
         /*if (entity.getExpenses() != null && !entity.getExpenses().isEmpty()) {

@@ -4,15 +4,25 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 public class AccountDto {
+    private Long id;
     private BigDecimal balance;
     private Long userId;
 
     public AccountDto() {
     }
 
-    public AccountDto(BigDecimal balance, Long userId) {
+    public AccountDto(Long id, BigDecimal balance, Long userId) {
+        this.id = id;
         this.balance = balance;
         this.userId = userId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public BigDecimal getBalance() {
@@ -36,18 +46,19 @@ public class AccountDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AccountDto that = (AccountDto) o;
-        return Objects.equals(balance, that.balance) && Objects.equals(userId, that.userId);
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(balance, userId);
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
         return "AccountDto{" +
-                "balance=" + balance +
+                "id=" + id +
+                ", balance=" + balance +
                 ", userId=" + userId +
                 '}';
     }

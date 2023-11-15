@@ -5,10 +5,12 @@ import org.expensetracker.database.repository.IncomeSourceRepository;
 import org.expensetracker.service.IncomeSourceService;
 import org.expensetracker.service.mapper.IncomeSourceMapper;
 import org.expensetracker.service.model.IncomeSourceDto;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class IncomeSourceServiceImpl implements IncomeSourceService {
     private final IncomeSourceRepository repository;
     private final IncomeSourceMapper mapper;

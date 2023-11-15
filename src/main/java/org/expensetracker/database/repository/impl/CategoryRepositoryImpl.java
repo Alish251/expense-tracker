@@ -2,16 +2,17 @@ package org.expensetracker.database.repository.impl;
 
 import org.expensetracker.database.entity.Category;
 import org.expensetracker.database.repository.CategoryRepository;
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.springframework.stereotype.Repository;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class CategoryRepositoryImpl implements CategoryRepository {
     private final SessionFactory sessionFactory;
 
@@ -60,6 +61,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
             transaction = session.beginTransaction();
 
             categoryToBeUpdated = session.get(Category.class, id);
+
             categoryToBeUpdated.setDescription(categoryUpdated.getDescription());
             categoryToBeUpdated.setName(categoryUpdated.getName());
 
@@ -69,7 +71,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
                 transaction.rollback();
             }
         }
-        return Optional.of(categoryUpdated);
+        return Optional.of(categoryToBeUpdated);
     }
 
     @Override
@@ -89,17 +91,5 @@ public class CategoryRepositoryImpl implements CategoryRepository {
             }
         }
         return Optional.of(id);
-    }
-
-    public static void main(String[] args) {
-        org.hibernate.cfg.Configuration configuration = new org.hibernate.cfg.Configuration();
-        configuration.configure();
-
-        CategoryRepository categoryRepository = new CategoryRepositoryImpl(configuration.buildSessionFactory());
-
-        Hibernate.initialize(categoryRepository.findById(4L).get().getExpenses());
-        var expenses = categoryRepository.findById(4L).get().getExpenses();
-        System.out.println(expenses);
-
     }
 }

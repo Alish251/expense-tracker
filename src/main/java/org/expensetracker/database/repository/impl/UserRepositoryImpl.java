@@ -92,24 +92,4 @@ public class UserRepositoryImpl implements UserRepository {
         }
         return Optional.of(id);
     }
-
-    public static void main(String[] args) {
-        org.hibernate.cfg.Configuration configuration = new org.hibernate.cfg.Configuration();
-        configuration.configure();
-
-        UserRepository userRepository = new UserRepositoryImpl(configuration.buildSessionFactory());
-
-
-//        User user = new User();
-//        user.setEmail("test email");
-//        user.setLastname("test lastname");
-//        user.setFirstname("test");
-//        userRepository.add(user);
-
-        User userUpdateTo = new User();
-        userUpdateTo.setEmail("updated");
-        userUpdateTo.setLastname("updated");
-        userUpdateTo.setFirstname("updated");
-        userRepository.updateById(1L, userUpdateTo);
-    }
 }

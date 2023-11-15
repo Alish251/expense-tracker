@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class IncomeDto {
+    private Long id;
     private BigDecimal amount;
     private LocalDate date;
     private Long incomeSourceId;
@@ -13,11 +14,20 @@ public class IncomeDto {
     public IncomeDto() {
     }
 
-    public IncomeDto(BigDecimal amount, LocalDate date, Long incomeSourceId, Long accountId) {
+    public IncomeDto(Long id, BigDecimal amount, LocalDate date, Long incomeSourceId, Long accountId) {
+        this.id = id;
         this.amount = amount;
         this.date = date;
         this.incomeSourceId = incomeSourceId;
         this.accountId = accountId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public BigDecimal getAmount() {
@@ -57,21 +67,22 @@ public class IncomeDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         IncomeDto incomeDto = (IncomeDto) o;
-        return Objects.equals(amount, incomeDto.amount) && Objects.equals(date, incomeDto.date) && Objects.equals(incomeSourceId, incomeDto.incomeSourceId) && Objects.equals(accountId, incomeDto.accountId);
+        return Objects.equals(id, incomeDto.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(amount, date, incomeSourceId, accountId);
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
         return "IncomeDto{" +
-                "amount=" + amount +
+                "id=" + id +
+                ", amount=" + amount +
                 ", date=" + date +
-                ", incomeSourceDto=" + incomeSourceId +
-                ", accountDto=" + accountId +
+                ", incomeSourceId=" + incomeSourceId +
+                ", accountId=" + accountId +
                 '}';
     }
 }

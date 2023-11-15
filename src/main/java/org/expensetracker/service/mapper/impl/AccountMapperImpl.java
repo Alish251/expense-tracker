@@ -2,9 +2,7 @@ package org.expensetracker.service.mapper.impl;
 
 import org.expensetracker.database.entity.Account;
 import org.expensetracker.database.entity.User;
-import org.expensetracker.database.repository.UserRepository;
 import org.expensetracker.service.mapper.AccountMapper;
-import org.expensetracker.service.mapper.UserMapper;
 import org.expensetracker.service.model.AccountDto;
 import org.springframework.stereotype.Component;
 
@@ -15,21 +13,14 @@ import java.util.stream.Collectors;
 @Component
 public class AccountMapperImpl implements AccountMapper {
 
-    private final UserMapper userMapper;
-    private final UserRepository userRepository;
-
-    public AccountMapperImpl(UserMapper userMapper, UserRepository userRepository) {
-        this.userMapper = userMapper;
-        this.userRepository = userRepository;
-    }
-
     @Override
     public AccountDto toDto(Account entity) {
         if (entity == null) {
             return null;
         }
 
-        AccountDto dto = new AccountDto();
+        final AccountDto dto = new AccountDto();
+        dto.setId(entity.getId());
         dto.setBalance(entity.getBalance());
 
         if (entity.getUser() != null) {
@@ -49,8 +40,8 @@ public class AccountMapperImpl implements AccountMapper {
         entity.setBalance(accountDto.getBalance());
 
         if (accountDto.getUserId() != null) {
-            User user = userRepository.findById(accountDto.getUserId())
-                    .orElseThrow(() -> new RuntimeException("User not found"));
+            User user = new User();
+            user.setId(accountDto.getUserId());
             entity.setUser(user);
         }
 

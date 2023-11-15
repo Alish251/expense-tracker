@@ -3,22 +3,16 @@ package org.expensetracker.service.mapper.impl;
 import org.expensetracker.database.entity.Account;
 import org.expensetracker.database.entity.Category;
 import org.expensetracker.database.entity.Expense;
-import org.expensetracker.database.repository.AccountRepository;
-import org.expensetracker.database.repository.CategoryRepository;
 import org.expensetracker.service.mapper.ExpenseMapper;
 import org.expensetracker.service.model.ExpenseDto;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class ExpenseMapperImpl implements ExpenseMapper {
-    private final AccountRepository accountRepository;
-    private final CategoryRepository categoryRepository;
 
-    public ExpenseMapperImpl(AccountRepository accountRepository, CategoryRepository categoryRepository) {
-        this.accountRepository = accountRepository;
-        this.categoryRepository = categoryRepository;
-    }
 
     @Override
     public ExpenseDto toDto(Expense entity) {
@@ -26,6 +20,7 @@ public class ExpenseMapperImpl implements ExpenseMapper {
             return null;
         }
         final ExpenseDto expenseDto = new ExpenseDto();
+        expenseDto.setId(entity.getId());
         expenseDto.setAmount(entity.getAmount());
         expenseDto.setDate(entity.getDate());
         expenseDto.setAccountId(entity.getAccount().getId());
@@ -44,14 +39,15 @@ public class ExpenseMapperImpl implements ExpenseMapper {
         expense.setDate(expenseDto.getDate());
 
         if (expenseDto.getCategoryId() != null) {
-            Category category = categoryRepository.findById(expenseDto.getCategoryId())
-                    .orElseThrow(() -> new RuntimeException("Category not found"));
+            final Category category = new Category();
+            category.setId(expenseDto.getId());
             expense.setCategory(category);
         }
 
         if (expenseDto.getAccountId() != null) {
-            Account account = accountRepository.findById(expenseDto.getAccountId())
-                    .orElseThrow(() -> new RuntimeException("Account not found"));
+            final Account account = new Account();
+            account.setId(expenseDto.getAccountId());
+            
             expense.setAccount(account);
         }
         return expense;

@@ -1,19 +1,17 @@
 package org.expensetracker.database.repository.impl;
 
 import org.expensetracker.database.entity.Income;
-import org.expensetracker.database.repository.AccountRepository;
 import org.expensetracker.database.repository.IncomeRepository;
-import org.expensetracker.database.repository.IncomeSourceRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class IncomeRepositoryImpl implements IncomeRepository {
     private final SessionFactory sessionFactory;
 
@@ -90,28 +88,5 @@ public class IncomeRepositoryImpl implements IncomeRepository {
             }
         }
         return Optional.of(id);
-    }
-
-    public static void main(String[] args) {
-        org.hibernate.cfg.Configuration configuration = new org.hibernate.cfg.Configuration();
-        configuration.configure();
-
-        IncomeRepository repository = new IncomeRepositoryImpl(configuration.buildSessionFactory());
-
-        IncomeSourceRepository incomeSourceRepository = new IncomeSourceRepositoryImpl(configuration.buildSessionFactory());
-        AccountRepository accountRepository = new AccountRepositoryImpl(configuration.buildSessionFactory());
-
-        Income income = new Income(BigDecimal.valueOf(27800.85), LocalDate.now(), incomeSourceRepository.findById(2L).get(), accountRepository.findById(2L).get());
-        //add - works
-        //System.out.println(repository.add(income));
-
-        //find all - works
-        //System.out.println(repository.findAll());
-        //find by id - works
-        //System.out.println(repository.findById(1L));
-        //update - works
-        //System.out.println(repository.updateById(1L, income));
-        //delete - works
-        //System.out.println(repository.deleteById(2l));
     }
 }

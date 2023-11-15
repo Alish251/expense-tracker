@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class ExpenseDto {
+    private Long id;
     private BigDecimal amount;
     private LocalDate date;
     private Long categoryId;
@@ -13,11 +14,20 @@ public class ExpenseDto {
     public ExpenseDto() {
     }
 
-    public ExpenseDto(BigDecimal amount, LocalDate date, Long categoryDto, Long accountId) {
+    public ExpenseDto(Long id, BigDecimal amount, LocalDate date, Long categoryId, Long accountId) {
+        this.id = id;
         this.amount = amount;
         this.date = date;
-        this.categoryId = categoryDto;
+        this.categoryId = categoryId;
         this.accountId = accountId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public BigDecimal getAmount() {
@@ -57,18 +67,19 @@ public class ExpenseDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ExpenseDto that = (ExpenseDto) o;
-        return Objects.equals(amount, that.amount) && Objects.equals(date, that.date) && Objects.equals(categoryId, that.categoryId) && Objects.equals(accountId, that.accountId);
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(amount, date, categoryId, accountId);
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
         return "ExpenseDto{" +
-                "amount=" + amount +
+                "id=" + id +
+                ", amount=" + amount +
                 ", date=" + date +
                 ", categoryId=" + categoryId +
                 ", accountId=" + accountId +

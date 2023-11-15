@@ -6,10 +6,12 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class IncomeSourceRepositoryImpl implements IncomeSourceRepository {
     private final SessionFactory sessionFactory;
 
@@ -62,8 +64,12 @@ public class IncomeSourceRepositoryImpl implements IncomeSourceRepository {
             incomeSourceToBeUpdated.setName(incomeSourceUpdated.getName());
 
             transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
         }
-        return Optional.of(incomeSourceToBeUpdated);
+        return Optional.ofNullable(incomeSourceToBeUpdated);
     }
 
     @Override
@@ -83,10 +89,5 @@ public class IncomeSourceRepositoryImpl implements IncomeSourceRepository {
             }
         }
         return Optional.of(id);
-    }
-
-    public static void main(String[] args) {
-        org.hibernate.cfg.Configuration configuration = new org.hibernate.cfg.Configuration();
-        configuration.configure();
     }
 }

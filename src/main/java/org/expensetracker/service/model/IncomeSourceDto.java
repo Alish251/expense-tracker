@@ -1,32 +1,25 @@
 package org.expensetracker.service.model;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import java.util.Objects;
 
+@Getter
+@Setter
+@ToString
 public class IncomeSourceDto {
+    private Long id;
     private String name;
     private String description;
 
     public IncomeSourceDto() {
     }
 
-    public IncomeSourceDto(String name, String description) {
+    public IncomeSourceDto(Long id, String name, String description) {
+        this.id = id;
         this.name = name;
-        this.description = description;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -35,19 +28,12 @@ public class IncomeSourceDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         IncomeSourceDto that = (IncomeSourceDto) o;
-        return Objects.equals(name, that.name) && Objects.equals(description, that.description);
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description);
+        return Objects.hash(id);
     }
 
-    @Override
-    public String toString() {
-        return "IncomeSourceDto{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                '}';
-    }
 }

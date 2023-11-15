@@ -4,6 +4,7 @@ import java.util.Objects;
 import java.util.Set;
 
 public class UserDto {
+    private Long id;
     private String firstname;
     private String lastname;
     private String email;
@@ -12,11 +13,20 @@ public class UserDto {
     public UserDto() {
     }
 
-    public UserDto(String firstname, String lastname, String email, Set<AccountDto> accounts) {
+    public UserDto(Long id, String firstname, String lastname, String email, Set<AccountDto> accounts) {
+        this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.accounts = accounts;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstname() {
@@ -56,20 +66,22 @@ public class UserDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserDto userDto = (UserDto) o;
-        return Objects.equals(firstname, userDto.firstname) && Objects.equals(lastname, userDto.lastname) && Objects.equals(email, userDto.email);
+        return Objects.equals(id, userDto.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstname, lastname, email);
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
         return "UserDto{" +
-                "firstname='" + firstname + '\'' +
+                "id=" + id +
+                ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", email='" + email + '\'' +
+                ", accounts=" + accounts +
                 '}';
     }
 }

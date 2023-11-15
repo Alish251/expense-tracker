@@ -5,10 +5,12 @@ import org.expensetracker.database.repository.CategoryRepository;
 import org.expensetracker.service.CategoryService;
 import org.expensetracker.service.mapper.CategoryMapper;
 import org.expensetracker.service.model.CategoryDto;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository repository;
     private final CategoryMapper mapper;
