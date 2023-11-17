@@ -6,15 +6,15 @@ import java.util.Objects;
 public class AccountDto {
     private Long id;
     private BigDecimal balance;
-    private Long userId;
+    private UserDto user;
 
     public AccountDto() {
     }
 
-    public AccountDto(Long id, BigDecimal balance, Long userId) {
+    public AccountDto(Long id, BigDecimal balance, UserDto user) {
         this.id = id;
         this.balance = balance;
-        this.userId = userId;
+        this.user = user;
     }
 
     public Long getId() {
@@ -33,18 +33,22 @@ public class AccountDto {
         this.balance = balance;
     }
 
-    public Long getUserId() {
-        return userId;
+    public UserDto getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(UserDto user) {
+        this.user = user;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         AccountDto that = (AccountDto) o;
         return Objects.equals(id, that.id);
     }
@@ -57,9 +61,9 @@ public class AccountDto {
     @Override
     public String toString() {
         return "AccountDto{" +
-                "id=" + id +
-                ", balance=" + balance +
-                ", userId=" + userId +
-                '}';
+            "id=" + id +
+            ", balance=" + balance +
+            '}';
     }
+
 }

@@ -81,14 +81,4 @@ public class Account {
         return Objects.hash(id);
     }
 
-    @Override
-    public String toString() {
-        return "Account{" +
-                "id=" + id +
-                ", balance=" + balance +
-                ", incomes=" + incomes +
-                ", expenses=" + expenses +
-                ", userId=" + user +
-                '}';
-    }
 }

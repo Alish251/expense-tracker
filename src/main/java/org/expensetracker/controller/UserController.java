@@ -32,21 +32,17 @@ public class UserController {
 
     @PostMapping("/users")
     public ResponseEntity<UserDto> addUser(@RequestBody UserDto userDto) {
-        UserDto addedUser = service.add(userDto);
-        return ResponseEntity
-                .created(URI.create("/expense-tracker/users/" + addedUser.getId()))
-                .body(addedUser);
+        return ResponseEntity.ok(service.add(userDto));
     }
 
     @PutMapping("/users/{id}")
     public ResponseEntity<UserDto> updateUserById(@PathVariable Long id, @RequestBody UserDto userDto) {
-        UserDto updatedUser = service.updateById(id, userDto);
-        return ResponseEntity.ok(updatedUser);
+        return ResponseEntity.ok(service.updateById(id, userDto));
     }
 
     @DeleteMapping("/users/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         service.deleteById(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.ok().build();
     }
 }

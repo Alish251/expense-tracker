@@ -3,11 +3,9 @@ package org.expensetracker.controller;
 import org.expensetracker.service.AccountService;
 import org.expensetracker.service.model.AccountDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -32,21 +30,17 @@ public class AccountController {
 
     @PostMapping("/accounts")
     public ResponseEntity<AccountDto> addAccount(@RequestBody AccountDto accountDto) {
-        AccountDto addedUser = service.add(accountDto);
-        return ResponseEntity
-                .created(URI.create("/expense-tracker/accounts/" + addedUser.getId()))
-                .body(addedUser);
+        return ResponseEntity.ok(service.add(accountDto));
     }
 
     @PutMapping("/accounts/{id}")
     public ResponseEntity<AccountDto> updateAccountById(@PathVariable Long id, @RequestBody AccountDto accountDto) {
-        AccountDto updatedAccount = service.updateById(id, accountDto);
-        return ResponseEntity.ok(updatedAccount);
+        return ResponseEntity.ok(service.updateById(id, accountDto));
     }
 
     @DeleteMapping("/accounts/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         service.deleteById(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.ok().build();
     }
 }

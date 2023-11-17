@@ -85,14 +85,4 @@ public class Income {
         return Objects.hash(id);
     }
 
-    @Override
-    public String toString() {
-        return "Income{" +
-                "id=" + id +
-                ", amount=" + amount +
-                ", date=" + date +
-                ", incomeSourceId=" + incomeSource.getId() +
-                ", accountId=" + account.getId() +
-                '}';
-    }
 }

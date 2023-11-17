@@ -72,12 +72,4 @@ public class IncomeSource {
         return Objects.hash(id);
     }
 
-    @Override
-    public String toString() {
-        return "IncomeSource{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                '}';
-    }
 }

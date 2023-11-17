@@ -1,19 +1,19 @@
 package org.expensetracker.service.model;
 
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 public class UserDto {
     private Long id;
     private String firstname;
     private String lastname;
     private String email;
-    private Set<AccountDto> accounts;
+    private List<AccountDto> accounts;
 
     public UserDto() {
     }
 
-    public UserDto(Long id, String firstname, String lastname, String email, Set<AccountDto> accounts) {
+    public UserDto(Long id, String firstname, String lastname, String email, List<AccountDto> accounts) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -53,11 +53,11 @@ public class UserDto {
         this.email = email;
     }
 
-    public Set<AccountDto> getAccounts() {
+    public List<AccountDto> getAccounts() {
         return accounts;
     }
 
-    public void setAccounts(Set<AccountDto> accounts) {
+    public void setAccounts(List<AccountDto> accounts) {
         this.accounts = accounts;
     }
 
