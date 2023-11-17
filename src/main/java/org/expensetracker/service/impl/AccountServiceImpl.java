@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Service(value = "test")
+@Service
 public class AccountServiceImpl implements AccountService {
     private final AccountRepository repository;
     private final AccountMapper mapper;
