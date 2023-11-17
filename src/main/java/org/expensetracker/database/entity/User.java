@@ -1,5 +1,6 @@
 package org.expensetracker.database.entity;
 
+import java.util.List;
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
@@ -17,12 +18,12 @@ public class User {
     @Column(name = "email")
     private String email;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-    private Set<Account> accounts;
+    private List<Account> accounts;
 
     public User() {
     }
 
-    public User(Long id, String firstname, String lastname, String email, Set<Account> accounts) {
+    public User(Long id, String firstname, String lastname, String email, List<Account> accounts) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -30,11 +31,11 @@ public class User {
         this.accounts = accounts;
     }
 
-    public Set<Account> getAccounts() {
+    public List<Account> getAccounts() {
         return accounts;
     }
 
-    public void setAccounts(Set<Account> accounts) {
+    public void setAccounts(List<Account> accounts) {
         this.accounts = accounts;
     }
 
@@ -83,13 +84,4 @@ public class User {
         return Objects.hash(id);
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", email='" + email + '\'' +
-                '}';
-    }
 }

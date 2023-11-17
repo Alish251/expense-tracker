@@ -4,6 +4,7 @@ import org.expensetracker.database.entity.Account;
 import org.expensetracker.database.entity.User;
 import org.expensetracker.service.mapper.AccountMapper;
 import org.expensetracker.service.model.AccountDto;
+import org.expensetracker.service.model.UserDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -24,7 +25,12 @@ public class AccountMapperImpl implements AccountMapper {
         dto.setBalance(entity.getBalance());
 
         if (entity.getUser() != null) {
-            dto.setUserId(entity.getUser().getId());
+            UserDto userDto = new UserDto();
+            userDto.setId(entity.getUser().getId());
+            userDto.setEmail(entity.getUser().getEmail());
+            userDto.setFirstname(entity.getUser().getFirstname());
+            userDto.setLastname(entity.getUser().getLastname());
+            dto.setUser(userDto);
         }
 
         return dto;
@@ -37,11 +43,15 @@ public class AccountMapperImpl implements AccountMapper {
         }
 
         final Account entity = new Account();
+        entity.setId(accountDto.getId());
         entity.setBalance(accountDto.getBalance());
 
-        if (accountDto.getUserId() != null) {
+        if (accountDto.getUser() != null) {
             User user = new User();
-            user.setId(accountDto.getUserId());
+            user.setId(accountDto.getUser().getId());
+            user.setEmail(accountDto.getUser().getEmail());
+            user.setFirstname(accountDto.getUser().getFirstname());
+            user.setLastname(accountDto.getUser().getLastname());
             entity.setUser(user);
         }
 
