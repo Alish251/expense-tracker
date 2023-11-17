@@ -11,6 +11,8 @@ public interface IncomeRepository {
 
     Optional<Income> findById(@NotNull Long id);
 
+    Optional<List<Income>> findByAccountId(@NotNull Long id);
+
     Optional<Income> add(@NotNull Income income);
 
     Optional<Income> updateById(@NotNull Long id, @NotNull Income income);

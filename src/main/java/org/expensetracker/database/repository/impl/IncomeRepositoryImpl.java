@@ -35,6 +35,15 @@ public class IncomeRepositoryImpl implements IncomeRepository {
     }
 
     @Override
+    public Optional<List<Income>> findByAccountId(Long accountId) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Income> query = session.createQuery("FROM Income WHERE account.id = :accountId", Income.class);
+            query.setParameter("accountId", accountId);
+            return Optional.ofNullable(query.getResultList());
+        }
+    }
+
+    @Override
     public Optional<Income> add(Income income) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {

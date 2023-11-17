@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -35,6 +36,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         }
     }
 
+    @Transactional
     @Override
     public Optional<Category> add(Category category) {
         Transaction transaction = null;

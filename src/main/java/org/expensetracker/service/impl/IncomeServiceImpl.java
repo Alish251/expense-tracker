@@ -7,6 +7,7 @@ import org.expensetracker.service.mapper.IncomeMapper;
 import org.expensetracker.service.model.IncomeDto;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,10 +35,19 @@ public class IncomeServiceImpl implements IncomeService {
         return mapper.toDto(income);
     }
 
+    public List<IncomeDto> getByAccountId(Long id) {
+        Optional<List<Income>> optionalIncomeDtoList = repository.findByAccountId(id);
+        List<Income> incomeList = optionalIncomeDtoList.orElseThrow(() -> new RuntimeException("No incomes found for selected account"));
+        return mapper.toDto(incomeList);
+    }
+
     @Override
     public IncomeDto add(IncomeDto incomeDto) {
         if (incomeDto == null) {
             return null;
+        }
+        if (incomeDto.getDate() == null) {
+            incomeDto.setDate(LocalDate.now());
         }
         Income income = mapper.toEntity(incomeDto);
         Income savedIncome = repository.add(income).orElseThrow(() -> new RuntimeException("Income not added"));

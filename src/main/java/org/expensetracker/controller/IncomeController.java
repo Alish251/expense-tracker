@@ -30,6 +30,11 @@ public class IncomeController {
         return ResponseEntity.ok(service.getById(id));
     }
 
+    @GetMapping("/incomes/account/{accountId}")
+    public ResponseEntity<List<IncomeDto>> getIncomesByAccountId(@PathVariable Long accountId) {
+        return ResponseEntity.ok(service.getByAccountId(accountId));
+    }
+
     @PostMapping("/incomes")
     public ResponseEntity<IncomeDto> addIncome(@RequestBody IncomeDto incomeDto) {
         IncomeDto addedIncome = service.add(incomeDto);

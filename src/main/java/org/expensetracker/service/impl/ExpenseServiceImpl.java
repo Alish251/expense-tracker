@@ -7,6 +7,7 @@ import org.expensetracker.service.mapper.ExpenseMapper;
 import org.expensetracker.service.model.ExpenseDto;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,6 +39,9 @@ public class ExpenseServiceImpl implements ExpenseService {
     public ExpenseDto add(ExpenseDto expenseDto) {
         if (expenseDto == null) {
             return null;
+        }
+        if (expenseDto.getDate() == null) {
+            expenseDto.setDate(LocalDate.now());
         }
         Expense expense = mapper.toEntity(expenseDto);
         Expense savedExpense = repository.add(expense).orElseThrow(() -> new RuntimeException("Expense not added"));
