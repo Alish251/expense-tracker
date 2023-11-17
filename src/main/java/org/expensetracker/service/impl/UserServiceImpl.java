@@ -1,9 +1,13 @@
 package org.expensetracker.service.impl;
 
+import java.util.ArrayList;
+import org.expensetracker.database.entity.Account;
 import org.expensetracker.database.entity.User;
 import org.expensetracker.database.repository.UserRepository;
+import org.expensetracker.service.AccountService;
 import org.expensetracker.service.UserService;
 import org.expensetracker.service.mapper.UserMapper;
+import org.expensetracker.service.model.AccountDto;
 import org.expensetracker.service.model.UserDto;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +18,13 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private final UserRepository repository;
     private final UserMapper mapper;
+    private final AccountService accountService;
 
-    public UserServiceImpl(UserRepository repository, UserMapper mapper) {
+    public UserServiceImpl(UserRepository repository, UserMapper mapper,
+                           AccountService accountService) {
         this.repository = repository;
         this.mapper = mapper;
+        this.accountService = accountService;
     }
 
     @Override
@@ -36,9 +43,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto add(UserDto userDto) {
+        final List<AccountDto> accounts = new ArrayList<>();
+        if (userDto.getAccounts() != null && !userDto.getAccounts().isEmpty()) {
+            for (AccountDto account: userDto.getAccounts()) {
+                AccountDto dto = accountService.add(account);
+                accounts.add(dto);
+            }
+            userDto.setAccounts(accounts);
+        }
         User user = mapper.toEntity(userDto);
         User savedUser = repository.add(user).orElseThrow(() -> new RuntimeException("User not added"));
-        return mapper.toDto(savedUser);
+        UserDto savedUserDto = mapper.toDto(savedUser);
+        if (!accounts.isEmpty()) {
+            for (AccountDto accountDto : accounts) {
+                accountDto.setUser(savedUserDto);
+                accountService.updateById(accountDto.getId(), accountDto);
+            }
+        }
+        return savedUserDto;
     }
 
     @Override

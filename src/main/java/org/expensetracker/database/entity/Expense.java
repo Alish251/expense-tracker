@@ -86,14 +86,4 @@ public class Expense {
         return Objects.hash(id);
     }
 
-    @Override
-    public String toString() {
-        return "Expense{" +
-                "id=" + id +
-                ", amount=" + amount +
-                ", date=" + date +
-                ", categoryId=" + category.getId() +
-                ", accountId=" + account.getId() +
-                '}';
-    }
 }

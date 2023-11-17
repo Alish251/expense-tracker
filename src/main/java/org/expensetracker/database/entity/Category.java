@@ -74,12 +74,4 @@ public class Category implements Serializable {
         return Objects.hash(id);
     }
 
-    @Override
-    public String toString() {
-        return "Category{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                '}';
-    }
 }
