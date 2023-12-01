@@ -36,6 +36,15 @@ public class ExpenseRepositoryImpl implements ExpenseRepository {
     }
 
     @Override
+    public Optional<List<Expense>> findByAccountId(Long accountId) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Expense> query = session.createQuery("FROM Expense WHERE account.id = :accountId", Expense.class);
+            query.setParameter("accountId", accountId);
+            return Optional.ofNullable(query.getResultList());
+        }
+    }
+
+    @Override
     public Optional<Expense> add(Expense expense) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {

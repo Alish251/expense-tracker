@@ -32,7 +32,7 @@ public class IncomeController {
 
     @GetMapping("/incomes/account/{accountId}")
     public ResponseEntity<List<IncomeDto>> getIncomesByAccountId(@PathVariable Long accountId) {
-        return ResponseEntity.ok(service.getByAccountId(accountId));
+        return ResponseEntity.ok(service.getAllByAccountId(accountId));
     }
 
     @PostMapping("/incomes")

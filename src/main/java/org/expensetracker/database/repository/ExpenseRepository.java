@@ -11,6 +11,8 @@ public interface ExpenseRepository {
 
     Optional<Expense> findById(@NotNull Long id);
 
+    Optional<List<Expense>> findByAccountId(@NotNull Long accountId);
+
     Optional<Expense> add(@NotNull Expense expense);
 
     Optional<Expense> updateById(@NotNull Long id, @NotNull Expense expense);

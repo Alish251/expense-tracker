@@ -10,6 +10,8 @@ public interface ExpenseService {
 
     ExpenseDto getById(@NotNull Long id);
 
+    List<ExpenseDto> getAllByAccountId(@NotNull Long id);
+
     ExpenseDto add(@NotNull ExpenseDto expenseDto);
 
     ExpenseDto updateById(@NotNull Long id, @NotNull ExpenseDto expenseDto);

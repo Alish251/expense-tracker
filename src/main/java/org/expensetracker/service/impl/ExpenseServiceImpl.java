@@ -36,6 +36,13 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
+    public List<ExpenseDto> getAllByAccountId(Long id) {
+        Optional<List<Expense>> optionalExpenseList = repository.findByAccountId(id);
+        List<Expense> expenseList = optionalExpenseList.orElseThrow(() -> new RuntimeException("No incomes found for selected account"));
+        return mapper.toDto(expenseList);
+    }
+
+    @Override
     public ExpenseDto add(ExpenseDto expenseDto) {
         if (expenseDto == null) {
             return null;

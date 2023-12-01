@@ -10,7 +10,7 @@ public interface IncomeService {
 
     IncomeDto getById(@NotNull Long id);
 
-    List<IncomeDto> getByAccountId(@NotNull Long id);
+    List<IncomeDto> getAllByAccountId(@NotNull Long id);
 
     IncomeDto add(@NotNull IncomeDto incomeDto);
 

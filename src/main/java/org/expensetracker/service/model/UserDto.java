@@ -81,7 +81,6 @@ public class UserDto {
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", email='" + email + '\'' +
-                ", accounts=" + accounts +
                 '}';
     }
 }

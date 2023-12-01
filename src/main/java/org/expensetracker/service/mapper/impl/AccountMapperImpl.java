@@ -31,6 +31,7 @@ public class AccountMapperImpl implements AccountMapper {
             userDto.setFirstname(entity.getUser().getFirstname());
             userDto.setLastname(entity.getUser().getLastname());
             dto.setUser(userDto);
+
         }
 
         return dto;

@@ -1,5 +1,7 @@
 package org.expensetracker.database.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -18,13 +20,19 @@ public class Account {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
     private Set<Expense> expenses;
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
 
     public Account() {
     }
 
-    public Account(BigDecimal balance) {
+    public Account(Long id, BigDecimal balance, Set<Income> incomes, Set<Expense> expenses, User user) {
+        this.id = id;
         this.balance = balance;
+        this.incomes = incomes;
+        this.expenses = expenses;
+        this.user = user;
     }
 
     public Long getId() {
@@ -81,4 +89,12 @@ public class Account {
         return Objects.hash(id);
     }
 
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", balance=" + balance +
+                ", userId=" + user.getId() +
+                '}';
+    }
 }

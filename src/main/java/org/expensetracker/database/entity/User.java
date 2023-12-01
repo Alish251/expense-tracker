@@ -1,9 +1,10 @@
 package org.expensetracker.database.entity;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -18,6 +19,7 @@ public class User {
     @Column(name = "email")
     private String email;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    @JsonManagedReference
     private List<Account> accounts;
 
     public User() {
@@ -84,4 +86,14 @@ public class User {
         return Objects.hash(id);
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", accounts=" + accounts +
+                '}';
+    }
 }

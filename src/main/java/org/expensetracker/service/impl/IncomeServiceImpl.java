@@ -35,7 +35,7 @@ public class IncomeServiceImpl implements IncomeService {
         return mapper.toDto(income);
     }
 
-    public List<IncomeDto> getByAccountId(Long id) {
+    public List<IncomeDto> getAllByAccountId(Long id) {
         Optional<List<Income>> optionalIncomeDtoList = repository.findByAccountId(id);
         List<Income> incomeList = optionalIncomeDtoList.orElseThrow(() -> new RuntimeException("No incomes found for selected account"));
         return mapper.toDto(incomeList);

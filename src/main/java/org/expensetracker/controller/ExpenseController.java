@@ -38,6 +38,11 @@ public class ExpenseController {
                 .body(addedExpense);
     }
 
+    @GetMapping("/expenses/account/{accountId}")
+    public ResponseEntity<List<ExpenseDto>> getIncomesByAccountId(@PathVariable Long accountId) {
+        return ResponseEntity.ok(service.getAllByAccountId(accountId));
+    }
+
     @PutMapping("/expenses/{id}")
     public ResponseEntity<ExpenseDto> updateExpenseById(@PathVariable Long id, @RequestBody ExpenseDto expenseDto) {
         ExpenseDto updatedExpense = service.updateById(id, expenseDto);

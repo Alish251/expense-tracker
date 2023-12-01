@@ -8,6 +8,7 @@ public class AccountDto {
     private BigDecimal balance;
     private UserDto user;
 
+
     public AccountDto() {
     }
 
@@ -61,9 +62,8 @@ public class AccountDto {
     @Override
     public String toString() {
         return "AccountDto{" +
-            "id=" + id +
-            ", balance=" + balance +
-            '}';
+                "id=" + id +
+                ", balance=" + balance +
+                '}';
     }
-
 }

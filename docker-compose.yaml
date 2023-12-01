@@ -8,4 +8,4 @@ services:
     environment:
       - POSTGRES_PASSWORD=root
       - POSTGRES_USER=admin
-    image: postgres:13.12-bullseye
+    image: postgres:11.22-bullseye

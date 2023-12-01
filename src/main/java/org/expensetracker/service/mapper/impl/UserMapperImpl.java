@@ -1,16 +1,15 @@
 package org.expensetracker.service.mapper.impl;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import org.expensetracker.database.entity.Account;
 import org.expensetracker.database.entity.User;
+import org.expensetracker.service.mapper.AccountMapper;
 import org.expensetracker.service.mapper.UserMapper;
 import org.expensetracker.service.model.AccountDto;
 import org.expensetracker.service.model.UserDto;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -28,7 +27,7 @@ public class UserMapperImpl implements UserMapper {
         userDto.setFirstname(entity.getFirstname());
         userDto.setLastname(entity.getLastname());
 
-        if (entity.getAccounts() != null && !entity.getAccounts().isEmpty()) {
+        /*if (entity.getAccounts() != null && !entity.getAccounts().isEmpty()) {
             List<AccountDto> accountDtoSet = new ArrayList<>();
             for (Account account : entity.getAccounts()) {
                 AccountDto accountDto = new AccountDto();
@@ -37,6 +36,14 @@ public class UserMapperImpl implements UserMapper {
                 accountDtoSet.add(accountDto);
             }
 
+            userDto.setAccounts(accountDtoSet);
+        }*/
+        AccountMapper accountMapper = new AccountMapperImpl();
+        if (entity.getAccounts() != null && !entity.getAccounts().isEmpty()) {
+            List<AccountDto> accountDtoSet = new ArrayList<>();
+            for (Account account : entity.getAccounts()) {
+                accountDtoSet.add(accountMapper.toDto(account));
+            }
             userDto.setAccounts(accountDtoSet);
         }
 
@@ -53,7 +60,7 @@ public class UserMapperImpl implements UserMapper {
         user.setLastname(userDto.getLastname());
         user.setEmail(userDto.getEmail());
 
-        if (userDto.getAccounts() != null && !userDto.getAccounts().isEmpty()) {
+        /*if (userDto.getAccounts() != null && !userDto.getAccounts().isEmpty()) {
             List<Account> accounts = new ArrayList<>();
             for (AccountDto dto : userDto.getAccounts()) {
                 Account account = new Account();
@@ -63,8 +70,17 @@ public class UserMapperImpl implements UserMapper {
                 accounts.add(account);
             }
             user.setAccounts(accounts);
-        }
+        }*/
 
+        AccountMapper accountMapper = new AccountMapperImpl();
+        if (userDto.getAccounts() != null && !userDto.getAccounts().isEmpty()) {
+            List<Account> accounts = new ArrayList<>();
+            for (AccountDto dto : userDto.getAccounts()) {
+                Account account = accountMapper.toEntity(dto);
+                accounts.add(account);
+            }
+            user.setAccounts(accounts);
+        }
         return user;
     }
 

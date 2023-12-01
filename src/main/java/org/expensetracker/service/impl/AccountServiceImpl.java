@@ -42,7 +42,6 @@ public class AccountServiceImpl implements AccountService {
             return null;
         }
         Account account = mapper.toEntity(accountDto);
-
         Account savedAccount = repository.add(account).orElseThrow(() -> new RuntimeException("Account not added"));
         return mapper.toDto(savedAccount);
     }
