@@ -23,14 +23,16 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryDto> getAll() {
         Optional<List<Category>> optionalCategories = repository.findAll();
-        List<Category> categories = optionalCategories.orElseThrow(() -> new RuntimeException("No categories found"));
+        List<Category> categories = optionalCategories
+                .orElseThrow(() -> new RuntimeException("No categories found"));
         return mapper.toDto(categories);
     }
 
     @Override
     public CategoryDto getById(Long id) {
         Optional<Category> optionalCategory = repository.findById(id);
-        Category category = optionalCategory.orElseThrow(() -> new RuntimeException("No category found"));
+        Category category = optionalCategory
+                .orElseThrow(() -> new RuntimeException("No category found"));
         return mapper.toDto(category);
     }
 
@@ -40,7 +42,8 @@ public class CategoryServiceImpl implements CategoryService {
             return null;
         }
         Category category = mapper.toEntity(categoryDto);
-        Category savedCategory = repository.add(category).orElseThrow(() -> new RuntimeException("Category not added"));
+        Category savedCategory = repository.add(category)
+                .orElseThrow(() -> new RuntimeException("Category not added"));
         return mapper.toDto(savedCategory);
     }
 
@@ -50,13 +53,15 @@ public class CategoryServiceImpl implements CategoryService {
             return null;
         }
 
-        Category category = repository.updateById(id, mapper.toEntity(categoryDto)).orElseThrow(() -> new RuntimeException("Category not updated"));
+        Category category = repository.updateById(id, mapper.toEntity(categoryDto))
+                .orElseThrow(() -> new RuntimeException("Category not updated"));
 
         return mapper.toDto(category);
     }
 
     @Override
     public void deleteById(Long id) {
-        Long optionalLong = repository.deleteById(id).orElseThrow(() -> new RuntimeException("No category found"));
+        Long optionalLong = repository.deleteById(id)
+                .orElseThrow(() -> new RuntimeException("No category found"));
     }
 }

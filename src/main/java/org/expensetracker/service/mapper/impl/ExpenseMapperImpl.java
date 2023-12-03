@@ -40,14 +40,14 @@ public class ExpenseMapperImpl implements ExpenseMapper {
 
         if (expenseDto.getCategoryId() != null) {
             final Category category = new Category();
-            category.setId(expenseDto.getId());
+            category.setId(expenseDto.getCategoryId());
             expense.setCategory(category);
         }
 
         if (expenseDto.getAccountId() != null) {
             final Account account = new Account();
             account.setId(expenseDto.getAccountId());
-            
+
             expense.setAccount(account);
         }
         return expense;

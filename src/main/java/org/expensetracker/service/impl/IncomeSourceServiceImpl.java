@@ -23,14 +23,16 @@ public class IncomeSourceServiceImpl implements IncomeSourceService {
     @Override
     public List<IncomeSourceDto> getAll() {
         Optional<List<IncomeSource>> optionalIncomes = repository.findAll();
-        List<IncomeSource> incomes = optionalIncomes.orElseThrow(() -> new RuntimeException("No income sources found"));
+        List<IncomeSource> incomes = optionalIncomes
+                .orElseThrow(() -> new RuntimeException("No income sources found"));
         return mapper.toDto(incomes);
     }
 
     @Override
     public IncomeSourceDto getById(Long id) {
         Optional<IncomeSource> optionalIncome = repository.findById(id);
-        IncomeSource incomeSource = optionalIncome.orElseThrow(() -> new RuntimeException("No income source found"));
+        IncomeSource incomeSource = optionalIncome
+                .orElseThrow(() -> new RuntimeException("No income source found"));
         return mapper.toDto(incomeSource);
     }
 
@@ -40,7 +42,8 @@ public class IncomeSourceServiceImpl implements IncomeSourceService {
             return null;
         }
         IncomeSource incomeSource = mapper.toEntity(incomeSourceDto);
-        IncomeSource savedIncomeSource = repository.add(incomeSource).orElseThrow(() -> new RuntimeException("Income source not added"));
+        IncomeSource savedIncomeSource = repository.add(incomeSource)
+                .orElseThrow(() -> new RuntimeException("Income source not added"));
         return mapper.toDto(savedIncomeSource);
     }
 
@@ -50,13 +53,15 @@ public class IncomeSourceServiceImpl implements IncomeSourceService {
             return null;
         }
 
-        IncomeSource incomeSource = repository.updateById(id, mapper.toEntity(incomeSourceDto)).orElseThrow(() -> new RuntimeException("Income source not updated"));
+        IncomeSource incomeSource = repository.updateById(id, mapper.toEntity(incomeSourceDto))
+                .orElseThrow(() -> new RuntimeException("Income source not updated"));
 
         return mapper.toDto(incomeSource);
     }
 
     @Override
     public void deleteById(Long id) {
-        Long optionalLong = repository.deleteById(id).orElseThrow(() -> new RuntimeException("No income source found"));
+        Long optionalLong = repository.deleteById(id)
+                .orElseThrow(() -> new RuntimeException("No income source found"));
     }
 }
