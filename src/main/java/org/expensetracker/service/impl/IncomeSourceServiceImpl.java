@@ -41,6 +41,9 @@ public class IncomeSourceServiceImpl implements IncomeSourceService {
         if (incomeSourceDto == null) {
             return null;
         }
+        if (incomeSourceDto.getDescription() == null) {
+            incomeSourceDto.setDescription("");
+        }
         IncomeSource incomeSource = mapper.toEntity(incomeSourceDto);
         IncomeSource savedIncomeSource = repository.add(incomeSource)
                 .orElseThrow(() -> new RuntimeException("Income source not added"));

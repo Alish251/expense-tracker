@@ -44,6 +44,9 @@ public class AccountServiceImpl implements AccountService {
         if (accountDto == null) {
             return null;
         }
+        if (accountDto.getBalance() == null) {
+            accountDto.setBalance(BigDecimal.valueOf(0));
+        }
         Account account = mapper.toEntity(accountDto);
         Account savedAccount = repository.add(account)
                 .orElseThrow(() -> new RuntimeException("Account not added"));

@@ -76,20 +76,18 @@ public class ExpenseServiceImpl implements ExpenseService {
             expenseDto.setDate(LocalDate.now());
         }
 
-        Expense oldIncome = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("No income found"));
+        Expense oldExpense = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No expense found"));
 
-        Expense newIncome = repository.updateById(id, mapper.toEntity(expenseDto))
-                .orElseThrow(() -> new RuntimeException("Income not updated"));
+        Expense newExpense = repository.updateById(id, mapper.toEntity(expenseDto))
+                .orElseThrow(() -> new RuntimeException("Expense not updated"));
 
-        BigDecimal amountDifference = newIncome.getAmount().subtract(oldIncome.getAmount());
+        BigDecimal amountDifference = newExpense.getAmount().subtract(oldExpense.getAmount());
 
         accountService.updateBalance(expenseDto.getAccountId(), amountDifference);
 
-        Expense expense = repository.updateById(id, mapper.toEntity(expenseDto))
-                .orElseThrow(() -> new RuntimeException("Expense not updated"));
 
-        return mapper.toDto(expense);
+        return mapper.toDto(newExpense);
     }
 
     @Override

@@ -1,12 +1,21 @@
 package org.expensetracker.service.model;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Objects;
 
 public class UserDto {
     private Long id;
+    @NotEmpty(message = "Firstname should not be empty")
+    @Size(min = 2, max = 30)
     private String firstname;
+    @NotEmpty(message = "Lastname should not be empty")
+    @Size(min = 2, max = 30)
     private String lastname;
+    @NotEmpty(message = "Email should not be empty")
+    @Email(message = "Email should be valid")
     private String email;
     private List<AccountDto> accounts;
 

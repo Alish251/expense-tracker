@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -35,6 +36,9 @@ class IncomeServiceImplTest {
     private IncomeMapper mapper;
     @InjectMocks
     private IncomeServiceImpl service;
+
+    @Mock
+    private AccountServiceImpl accountService;
 
     private Income income;
     private IncomeDto incomeDto;
@@ -62,10 +66,10 @@ class IncomeServiceImplTest {
         user.setLastname("Test Lastname");
         user.setEmail("Test Email");
 
-        AccountDto accountDto = new AccountDto();
-        accountDto.setId(id);
-        accountDto.setBalance(BigDecimal.valueOf(1000));
-        accountDto.setUser(userDto);
+        AtomicReference<AccountDto> accountDto = new AtomicReference<>(new AccountDto());
+        accountDto.get().setId(id);
+        accountDto.get().setBalance(BigDecimal.valueOf(1000));
+        accountDto.get().setUser(userDto);
 
         account = new Account();
         account.setId(id);
@@ -183,7 +187,8 @@ class IncomeServiceImplTest {
         updatedIncomeDto.setIncomeSourceId(incomeSource.getId());
         updatedIncomeDto.setAccountId(account.getId());
 
-
+        when(repository.findById(id))
+                .thenReturn(Optional.of(income));
         when(repository.updateById(id, mapper.toEntity(updatedIncomeDto)))
                 .thenReturn(Optional.of(updatedIncome));
         when(mapper.toDto(updatedIncome)).thenReturn(updatedIncomeDto);
@@ -198,6 +203,7 @@ class IncomeServiceImplTest {
 
     @Test
     void deleteById() {
+        when(repository.findById(id)).thenReturn(Optional.of(income));
         when(repository.deleteById(id)).thenReturn(Optional.of(id));
 
         service.deleteById(id);

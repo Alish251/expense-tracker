@@ -22,6 +22,7 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -36,6 +37,9 @@ class ExpenseServiceImplTest {
     private ExpenseMapper mapper;
     @InjectMocks
     private ExpenseServiceImpl service;
+
+    @Mock
+    private AccountServiceImpl accountService;
 
     private Expense expense;
     private ExpenseDto expenseDto;
@@ -63,10 +67,10 @@ class ExpenseServiceImplTest {
         user.setLastname("Test Lastname");
         user.setEmail("Test Email");
 
-        AccountDto accountDto = new AccountDto();
-        accountDto.setId(id);
-        accountDto.setBalance(BigDecimal.valueOf(1000));
-        accountDto.setUser(userDto);
+        AtomicReference<AccountDto> accountDto = new AtomicReference<>(new AccountDto());
+        accountDto.get().setId(id);
+        accountDto.get().setBalance(BigDecimal.valueOf(1000));
+        accountDto.get().setUser(userDto);
 
         account = new Account();
         account.setId(id);
@@ -78,9 +82,9 @@ class ExpenseServiceImplTest {
         category.setName("Test Name");
         category.setDescription("Test Description");
 
-        CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setName("Test Name");
-        categoryDto.setDescription("Test Description");
+        AtomicReference<CategoryDto> categoryDto = new AtomicReference<>(new CategoryDto());
+        categoryDto.get().setName("Test Name");
+        categoryDto.get().setDescription("Test Description");
 
 
         expense = new Expense();
@@ -183,10 +187,12 @@ class ExpenseServiceImplTest {
         updatedExpenseDto.setCategoryId(category.getId());
         updatedExpenseDto.setAccountId(account.getId());
 
-
+        when(repository.findById(id))
+                .thenReturn(Optional.of(expense));
         when(repository.updateById(id, mapper.toEntity(updatedExpenseDto)))
                 .thenReturn(Optional.of(updatedExpense));
-        when(mapper.toDto(updatedExpense)).thenReturn(updatedExpenseDto);
+        when(mapper.toDto(updatedExpense))
+                .thenReturn(updatedExpenseDto);
 
         var result = service.updateById(id, updatedExpenseDto);
 
@@ -198,6 +204,7 @@ class ExpenseServiceImplTest {
 
     @Test
     void deleteById() {
+        when(repository.findById(id)).thenReturn(Optional.of(expense));
         when(repository.deleteById(id)).thenReturn(Optional.of(id));
 
         service.deleteById(id);

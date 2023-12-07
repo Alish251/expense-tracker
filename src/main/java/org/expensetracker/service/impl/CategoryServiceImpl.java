@@ -41,6 +41,9 @@ public class CategoryServiceImpl implements CategoryService {
         if (categoryDto == null) {
             return null;
         }
+        if (categoryDto.getDescription() == null) {
+            categoryDto.setDescription("");
+        }
         Category category = mapper.toEntity(categoryDto);
         Category savedCategory = repository.add(category)
                 .orElseThrow(() -> new RuntimeException("Category not added"));
