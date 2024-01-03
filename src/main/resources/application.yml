@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/expense_tracker_database
+    username: admin
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+jwt:
+  secret: f515b98fb2866ff23e8e434549d5de062ba1eba036dc63ad560b2708ec22f93f
+  expiration: 3600000
+server:
+  port: 8080
